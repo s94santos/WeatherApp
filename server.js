@@ -15,8 +15,8 @@ app.use(express.urlencoded({extended:true}))
 function writeLog(array){
 	var stream = fs.createWriteStream("log.txt", {flags:'a'});
 	array.forEach((city) => {
-    stream.write(JSON.stringify(city) + "\n-------------------------------------------------------\n");
-	})
+    	stream.write(JSON.stringify(city) + "\n-------------------------------------------------------\n")
+    })
 	stream.end()
 }
 
