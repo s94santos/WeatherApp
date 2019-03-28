@@ -1,0 +1,89 @@
+<html>
+<head>
+
+  
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js"></script>
+  <script src="https://code.jquery.com/jquery-3.2.1.js" ></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.29.0/js/jquery.tablesorter.js" >
+  </script>  
+
+</head>
+<body>
+  <div style="width:400px;height:400px">
+    <canvas id="bar-chart" width="800" height="450"></canvas>
+    <script>
+        
+        <% var labelArr = [] %>
+        <% var dataArr = [] %>
+        <% res.forEach((city) => {labelArr.push(city.name)%>
+        <% if(city.main === undefined){dataArr.push(null)}else{dataArr.push(city.main.temp)}}) %>
+        
+        
+        new Chart(document.getElementById("bar-chart"), {
+            type: 'bar',
+            data: {
+              labels: <%- JSON.stringify(labelArr) %> ,
+              datasets: [
+                {
+                  label: "Actual Temperature (°C)",
+                  backgroundColor: ["#3e95cd", "#8e5ea2","#fe5ea2"],
+                  data: <%- JSON.stringify(dataArr) %>
+                }
+              ]
+            },
+             options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+    });
+
+    $(function() {
+      $("#table").tablesorter();
+    });
+    
+  </script>
+
+  
+  <table id="table" >
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Temperature</th>
+        <th>Sunrise hour</th>
+        <th>Sunset hour</th>
+      </tr>
+    </thead>  
+    <tbody>  
+      <% res.forEach((city) => { %>
+        
+        <tr>
+          <td><%= city.name %></td>
+              <% if(city.main){ %>
+          <td><%= city.main.temp %></td>
+              <%}%>
+          <td>
+            <% if(city.main) {%>
+            <%var sunriseTime = new Date(city.sys.sunrise * 1000) %>
+            <%= sunriseTime.getHours() + ":" + sunriseTime.getMinutes() + ":" + sunriseTime.getSeconds() %>
+            <%}%>
+          </td>
+          <td>
+            <% if(city.main) {%>
+            <%var sunsetTime = new Date(city.sys.sunrise * 1000) %>
+            <%= sunsetTime.getHours() + ":" + sunsetTime.getMinutes() + ":" + sunsetTime.getSeconds() %>
+            <%}%>
+          </td>
+        </tr>    
+      
+      <% }) %>
+    </tbody>
+</table>
+  
+   
+</body>
+</html>
