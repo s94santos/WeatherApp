@@ -1,13 +1,80 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
+import React from "react";
+import ReactDOM from "react-dom";
+import ReactApexChart from 'react-apexcharts'
 
-class App extends React.Component{
-    render(){
-        return(
-            <div>Hello World</div>
-        )
+
+class BarChart extends React.Component {
+      
+    constructor(props) {
+      super(props);
+
+      this.state = {
+        options: {
+          plotOptions: {
+            bar: {
+              horizontal: false,
+              columnWidth: '55%',
+              endingShape: 'rounded'	
+            },
+          },
+          dataLabels: {
+            enabled: false
+          },
+          stroke: {
+            show: true,
+            width: 2,
+            colors: ['transparent']
+          },
+          xaxis: {
+            categories: ['Aveiro'],
+          },
+          yaxis: {
+            title: {
+              text: 'Cº (Celsius)'
+            }
+          },
+          fill: {
+            opacity: 1
+          },
+          tooltip: {
+            y: {
+              formatter: function (val) {
+                return val + " Cº"
+              }
+            }
+          }
+        },
+        series: [{
+          name: 'Temperature',
+          data: [15]
+        }]
+      }
     }
-}
 
-ReactDOM.render(<App />, document.getElementById('app'))
+    componentDidMount(){
+        fetch('/api/weather?cities[]=coimbra')
+        .then(res => res.json())
+        .then((res) => {
+            let names = [];
+            res.forEach((elm, key) => {
+                names.push(key);
+            })
+            this.setState(options.xaxis.categories, names)
+        })
+    }
+
+    render() {
+      return (
+        
+
+        <div id="chart">
+          <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height="350" />
+        </div>
+
+
+      );
+    }
+  }
+
+  const domContainer = document.querySelector('#root');
+  ReactDOM.render(<BarChart />, domContainer);
