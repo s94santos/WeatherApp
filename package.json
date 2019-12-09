@@ -15,5 +15,8 @@
     "react": "^16.12.0",
     "react-dom": "^16.12.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "sinon": "^7.5.0"
+  }
 }
