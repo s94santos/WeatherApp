@@ -30,12 +30,14 @@ describe("weatherController", function()  {
             }
         };
         
-        const owmGetWeatherReqStub = sinon.stub(weatherMethods, "owmGetWeatherReq")
+        const owmGetWeatherReqStub = sinon.stub(weatherMethods, "owmGetWeather")
             .returns(stub);
 
         await weatherController.getWeather(req, res, next);
 
         expect(res.send.firstCall.args[0]).to.eql(stub);
+        
+        owmGetWeatherReqStub.restore();
 
     });
   });
