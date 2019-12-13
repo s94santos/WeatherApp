@@ -4,7 +4,7 @@ const owmGetWeather = async (cities, apiKey) => {
     let promiseArray = [];
     cities.forEach( async (city) => {
         const url = `http://api.openweathermap.org/data/2.5/weather?q=${city}&units=metric&APPID=${apiKey}`;
-        const res = owmWeatherHttpReq(url)
+        const res = factory.owmWeatherHttpReq(url)
         promiseArray.push(res);
     });
     const resArr = await Promise.all(promiseArray);
@@ -25,7 +25,7 @@ const parseResponse = (resArr) => {
     return resObj;
 }
 
-module.exports = {
+module.exports = factory = {
     owmGetWeather,
     owmWeatherHttpReq,
     parseResponse
