@@ -1,80 +1,48 @@
+import ReactDOM from 'react-dom';
 import React from "react";
-import ReactDOM from "react-dom";
-import ReactApexChart from 'react-apexcharts'
+import BarChart from './graphComponent';
 
+const buildQueryString = (cities) => {
+  let base = '/api/weather?';
+  cities.forEach((city, index) => {
+    base = `${base}cities=${city}`
+    if(index < cities.length - 1){
+      base += '&';
+    } 
+  });
+  return base;
+}
 
-class BarChart extends React.Component {
-      
-    constructor(props) {
-      super(props);
+const getWeatherReq = (queryString) => {
+  return fetch(queryString)
+    .then(res => res.json())
+    .then((res) => {
+      return res;
+  });
+}
 
-      this.state = {
-        options: {
-          plotOptions: {
-            bar: {
-              horizontal: false,
-              columnWidth: '55%',
-              endingShape: 'rounded'	
-            },
-          },
-          dataLabels: {
-            enabled: false
-          },
-          stroke: {
-            show: true,
-            width: 2,
-            colors: ['transparent']
-          },
-          xaxis: {
-            categories: ['Aveiro'],
-          },
-          yaxis: {
-            title: {
-              text: 'Cº (Celsius)'
-            }
-          },
-          fill: {
-            opacity: 1
-          },
-          tooltip: {
-            y: {
-              formatter: function (val) {
-                return val + " Cº"
-              }
-            }
-          }
-        },
-        series: [{
-          name: 'Temperature',
-          data: [15]
-        }]
-      }
-    }
-
-    componentDidMount(){
-        fetch('/api/weather?cities[]=coimbra')
-        .then(res => res.json())
-        .then((res) => {
-            let names = [];
-            res.forEach((elm, key) => {
-                names.push(key);
-            })
-            this.setState(options.xaxis.categories, names)
-        })
-    }
-
-    render() {
-      return (
-        
-
-        <div id="chart">
-          <ReactApexChart options={this.state.options} series={this.state.series} type="bar" height="350" />
-        </div>
-
-
-      );
-    }
+const parseRes = (res) => {
+  let obj = {
+    name:[],
+    tmp:[],
+    minTmp:[],
+    maxTmp:[]
+  };
+  for (const [key,value] of Object.entries(res)){
+    obj.name.push(key);
+    obj.tmp.push(value.temp); 
+    obj.minTmp.push(value.temp_min)  
+    obj.maxTmp.push(value.temp_max)    
   }
+  return obj;
+}
+  const queryString = buildQueryString(['lisboa','aveiro','coimbra','porto','faro']);
+  getWeatherReq(queryString).then((weather) => {
+    const parsedWeather = parseRes(weather);
+    const domContainer = document.querySelector('#root');
+    ReactDOM.render(<BarChart weather={parsedWeather}/>, domContainer); 
+  })
 
-  const domContainer = document.querySelector('#root');
-  ReactDOM.render(<BarChart />, domContainer);
+
+
+
