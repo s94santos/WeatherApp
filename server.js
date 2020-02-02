@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 
 
-const router = require('./src/routes');
+const router = require('./api/routes');
 
 const port = 3000
 
