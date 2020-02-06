@@ -1,8 +1,8 @@
 const chai = require("chai");
 const expect = chai.expect;
 const sinon = require("sinon");
-const weatherController = require("../src/resources/weather/weatherController");
-const weatherMethods = require("../src/resources/weather/weatherMethods");
+const weatherController = require("../api/src/weather/weatherController");
+const weatherMethods = require("../api/src/weather/weatherMethods");
 
 describe("weatherController", function()  {
   describe("getWeather", function() {

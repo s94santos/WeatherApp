@@ -3,9 +3,8 @@ const expect = chai.expect;
 const sinon = require("sinon");
 const axios = require('axios');
 const rewire = require('rewire');
-const wm = rewire("../src/resources/weather/weatherMethods");
 
-const weatherMethods = require("../src/resources/weather/weatherMethods");
+const weatherMethods = require("../api/src/weather/weatherMethods");
 
 describe("weatherMethods", function()  {
     describe("owmGetWeather", async function()  {

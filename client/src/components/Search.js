@@ -9,11 +9,17 @@ const Search = ({submitHandler}) => {
         event.preventDefault();
         submitHandler(input);
     }
-    
+
+    const searchStyle = {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+    }
+
     return (
-        <form onSubmit={submitSearch}>
+        <form style={searchStyle} onSubmit={submitSearch}>
             <Input value={input} changeHandler={setInput} />
-            <button>OK</button>
+            <button>SEARCH</button>
         </form>
     )
 }

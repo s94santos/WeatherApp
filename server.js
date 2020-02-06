@@ -1,15 +1,18 @@
 const express = require('express')
 const app = express()
 
-
 const router = require('./api/routes');
 
-const port = 3000
+require('dotenv').config()
+
+global.conf = require('./settings/conf');
+
+
 
 app.use('/api', router);
 
 app.use(express.static('public'));
 
-app.listen(port, function() {
-	console.log(`App listening on port ${port}!`)
+app.listen(conf.apiPort, function() {
+	console.log(`App listening on port ${conf.apiPort}!`)
 })
