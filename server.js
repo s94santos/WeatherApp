@@ -13,6 +13,6 @@ app.use('/api', router);
 
 app.use(express.static('public'));
 
-app.listen(process.env.PORT || 3000, function() {
+app.listen(conf.apiPort, function() {
 	console.log(`App listening on port ${conf.apiPort}!`)
 })
