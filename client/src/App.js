@@ -66,24 +66,26 @@ const App = () => {
     })
     
     useEffect(() => {
+      if(search){
         const queryString = helpers.buildQueryString([search]);
-        getWeatherReq(queryString)
-        .then((weatherResponse) => {
-            const parsedResponse = helpers.parseResponse(weatherResponse);
-            const objClone = {...graphOptions,
-              options:{
-                  xaxis:{
-                          categories:parsedResponse.name
-                  }
+          getWeatherReq(queryString)
+          .then((weatherResponse) => {
+              const parsedResponse = helpers.parseResponse(weatherResponse);
+              const objClone = {...graphOptions,
+                options:{
+                    xaxis:{
+                            categories:parsedResponse.name
+                    }
+                }
               }
-            }
-            objClone.series[0].data = parsedResponse.minTmp;
-            objClone.series[1].data = parsedResponse.tmp;
-            objClone.series[2].data = parsedResponse.maxTmp;
-            setGraphOptions(objClone)
-        }).catch((err) => {
-            console.log('err :', err);
-        })
+              objClone.series[0].data = parsedResponse.minTmp;
+              objClone.series[1].data = parsedResponse.tmp;
+              objClone.series[2].data = parsedResponse.maxTmp;
+              setGraphOptions(objClone)
+          }).catch((err) => {
+              console.log('err :', err);
+          })
+      }  
     }, [search])
 
     return (
