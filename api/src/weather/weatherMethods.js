@@ -9,7 +9,7 @@ const owmGetWeather = async (cities, apiKey) => {
     });
     const resArr = await Promise.all(promiseArray);
 
-    return parseResponse(resArr);
+    return factory.parseResponse(resArr);
 
 }
 

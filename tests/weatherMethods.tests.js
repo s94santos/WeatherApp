@@ -39,12 +39,51 @@ describe("weatherMethods", function()  {
 
             const owmGetWeatherStub = sinon.stub(weatherMethods, 'owmWeatherHttpReq')
                 .resolves(stub);
-            /* const parseRespondeStub = sinon.stub(weatherMethods, 'parseResponse')
-                .returns(stub);  */
+            const parseRespondeStub = sinon.stub(weatherMethods, 'parseResponse')
+                .returns(stub2); 
 
             const result = await weatherMethods.owmGetWeather(cities, apiKey);
             expect(result).to.be.eql(stub2);
 
+            owmGetWeatherStub.restore();
+            parseRespondeStub.restore();
+
         })
+        
     });
+    describe("parseResponse", function(){
+        it("adad", function(){
+            const stub = [{
+                data: { 
+                    main: { 
+                        temp: 15.61,
+                        feels_like: 13.18,
+                        temp_min: 13.89,
+                        temp_max: 17,
+                        pressure: 1024,
+                        humidity: 82 
+                    }
+                }
+            }]
+
+            const stub2 = {
+                Lisbon: {
+                    temp: 15.61,
+                    feels_like: 13.18,
+                    temp_min: 13.89,
+                    temp_max: 17,
+                    pressure: 1024,
+                    humidity: 82 
+                }
+            }
+
+            const result = weatherMethods.parseResponse(stub);
+            expect(result).to.be.eql(stub2);
+
+        })
+
+
+
+
+    })
 });
