@@ -1,13 +1,19 @@
 const weatherMethods = require('./weatherMethods');
+const weatherSchema = require('./weatherSchema');
 
 const getWeather = async (req, res, next) => {
 
 	const apiKey = conf.apiKey;
+	const params = {
+		cities: req.query.cities
+    }
+
 	try{
-		const response = await weatherMethods.owmGetWeather(req.query.cities, apiKey);
-		res.send(response);
+        const valParams = await weatherSchema.validateAsync(params);
+		const response = await weatherMethods.owmGetWeather(valParams.cities, apiKey);
+	    return res.send(response);
 	}catch(err){
-		next(err);
+		return next(err);
 	}
 
 }

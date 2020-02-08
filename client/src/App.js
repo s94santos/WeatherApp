@@ -64,13 +64,19 @@ const App = () => {
         data: []
       }]
     })
+
+    const getWeather = () => {
+      const queryString = helpers.buildQueryString([search]);
+      return getWeatherReq(queryString)
+        .then((weatherResponse) => {
+          return helpers.parseResponse(weatherResponse);
+    })
+  }
     
     useEffect(() => {
       if(search){
-        const queryString = helpers.buildQueryString([search]);
-          getWeatherReq(queryString)
-          .then((weatherResponse) => {
-              const parsedResponse = helpers.parseResponse(weatherResponse);
+        getWeather()
+          .then((parsedResponse) => {
               const objClone = {...graphOptions,
                 options:{
                     xaxis:{
