@@ -1,8 +1,6 @@
 const chai = require("chai");
 const expect = chai.expect;
 const sinon = require("sinon");
-const axios = require('axios');
-const rewire = require('rewire');
 
 const weatherMethods = require("../api/src/weather/weatherMethods");
 
@@ -52,7 +50,7 @@ describe("weatherMethods", function()  {
         
     });
     describe("parseResponse", function(){
-        it("adad", function(){
+        it("should parse the response Array and return a valid weather object", function(){
             const stub = [{
                 data: { 
                     main: { 
@@ -62,7 +60,8 @@ describe("weatherMethods", function()  {
                         temp_max: 17,
                         pressure: 1024,
                         humidity: 82 
-                    }
+                    },
+                    name: 'Lisbon'
                 }
             }]
 
@@ -73,14 +72,14 @@ describe("weatherMethods", function()  {
                     temp_min: 13.89,
                     temp_max: 17,
                     pressure: 1024,
-                    humidity: 82 
+                    humidity: 82,
                 }
             }
 
             const result = weatherMethods.parseResponse(stub);
             expect(result).to.be.eql(stub2);
 
-        })
+        });
 
 
 
